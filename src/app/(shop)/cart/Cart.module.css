@@ -1,0 +1,131 @@
+/* src/app/(shop)/cart/Cart.module.css */
+.cartContainer {
+  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.cartContainer h1 {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.emptyCart {
+  text-align: center;
+  padding: 3rem;
+  background-color: #f8f8f8;
+  border: 1px dashed #ddd;
+  border-radius: 8px;
+}
+
+.emptyCart p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.continueShopping {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+}
+
+.cartContent {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* 2/3 para la tabla, 1/3 para el resumen */
+  gap: 2rem;
+}
+
+.itemsList {
+  border: 1px solid #eee;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.cartTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cartTable th,
+.cartTable td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.cartTable th {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
+
+.cartTable td img {
+  border-radius: 4px;
+}
+
+.removeButton {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.summary {
+  background-color: #f8f8f8;
+  padding: 1.5rem;
+  border-radius: 8px;
+  height: fit-content; /* Para que no se estire */
+}
+
+.summary h2 {
+  margin-top: 0;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.summaryRow.total {
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+.checkoutButton {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.2rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+/* Considera añadir media queries para responsive aquí */
+@media (max-width: 768px) {
+  .cartContent {
+    grid-template-columns: 1fr; /* Apila en móviles */
+  }
+}
+/* src/app/(shop)/cart/Cart.module.css */
+/* ... tus estilos ... */
+.tableWrapper {
+    overflow-x: auto; /* Permite scroll horizontal si la tabla es muy ancha */
+}

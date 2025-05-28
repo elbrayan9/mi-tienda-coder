@@ -1,0 +1,79 @@
+/* src/app/(shop)/product/[slug]/ProductDetail.module.css */
+.container {
+  display: flex;
+  gap: 3rem;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 2rem auto;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.image {
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.details {
+  flex: 1;
+}
+
+.details h1 {
+  margin-top: 0;
+  color: #333;
+}
+
+.description {
+  color: #555;
+  line-height: 1.6;
+}
+
+.category, .stock {
+  font-size: 0.9rem;
+  color: #777;
+  margin: 0.5rem 0;
+}
+
+.price {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #007bff;
+  margin-top: 1rem;
+}
+
+/* src/app/(shop)/product/[slug]/ProductDetail.module.css */
+/* ... (tus estilos existentes) ... */
+
+.addToCartButton {
+  padding: 0.8rem 1.5rem;
+  background-color: #28a745; /* Verde */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.addToCartButton:hover {
+  background-color: #218838;
+}
+
+/* src/app/(shop)/product/[slug]/ProductDetail.module.css */
+/* ... tus estilos ... */
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* Apila verticalmente */
+    gap: 1.5rem;
+  }
+
+  .image {
+      width: 100%; /* Ocupa todo el ancho */
+      height: auto;
+      max-width: 300px; /* Limita un poco si quieres */
+      margin: 0 auto; /* Centra la imagen */
+  }
+}

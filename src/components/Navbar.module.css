@@ -1,0 +1,56 @@
+/* src/components/Navbar.module.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #333;
+  color: white;
+}
+
+.brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.navList {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navLink {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+.navLink:hover {
+  text-decoration: underline;
+}
+
+/* src/components/Navbar.module.css */
+/* ... tus estilos ... */
+
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column; /* Apila los elementos */
+    align-items: flex-start; /* Alinea al inicio */
+  }
+
+  .navList {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+    gap: 0.5rem;
+  }
+
+  .navLink {
+      display: block; /* Ocupa todo el ancho */
+      padding: 0.5rem 0;
+  }
+}
