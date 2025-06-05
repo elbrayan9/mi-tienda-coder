@@ -1,78 +1,53 @@
 // src/app/(shop)/product/[slug]/page.js
-"use client"; // <-- Mantenemos esto para la interactividad
-
-import { getProductBySlug } from '../../../../data/products'; // Solo necesitamos getProductBySlug aquí
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import styles from './ProductDetail.module.css';
-import { useCart } from '@/context/CartContext'; 
-import { useState } from 'react';
+import ProductDetailClient from './ProductDetailClient';
 
-// NO MÁS generateStaticParams AQUÍ
+// La función generateStaticParams no cambia.
+export async function generateStaticParams() {
+  const apiUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/products`;
+  try {
+    const response = await fetch(apiUrl, { cache: 'no-store' }); 
+    if (!response.ok) {
+      console.error("Fallo al buscar productos para generateStaticParams");
+      return [];
+    }
+    const products = await response.json();
+    return products.map((product) => ({
+      slug: product.slug,
+    }));
+  } catch (error) {
+    console.error("Error en generateStaticParams:", error);
+    return [];
+  }
+}
 
-export default function ProductDetailPage({ params }) {
+// -- Componente de Página (Server Component) Refactorizado --
+export default async function ProductDetailPage({ params }) {
   const { slug } = params;
-  const product = getProductBySlug(slug);
-  const { addToCart } = useCart();
-  const [quantity, setQuantity] = useState(1);
 
-  if (!product) {
-      // En "use client", podemos usar notFound() si se importa
-      // o simplemente mostrar un mensaje.
-      notFound(); 
-      return null; // O return <div>Producto no encontrado</div>;
+  // Si por alguna razón el slug no está, redirigir a 404.
+  if (!slug) {
+    notFound();
   }
 
-  // Creamos el Counter local para manejar 'quantity'
-  const CounterLocal = ({ maxStock }) => {
-    const increment = () => setQuantity(q => (q < maxStock ? q + 1 : q));
-    const decrement = () => setQuantity(q => (q > 1 ? q - 1 : q));
-    
-    const counterStyles = { 
-        counter: { display: 'flex', alignItems: 'center', gap: '1rem', border: '1px solid #ccc', borderRadius: '5px', padding: '0.5rem', width: 'fit-content', margin: '1rem 0' },
-        button: { background: '#f0f0f0', border: 'none', borderRadius: '4px', width: '30px', height: '30px', fontSize: '1.5rem', cursor: 'pointer', lineHeight: 1 },
-        count: { fontSize: '1.2rem', fontWeight: 'bold', minWidth: '30px', textAlign: 'center'}
-    };
+  // Hacemos el fetch directamente aquí.
+  const apiUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/products/${slug}`;
+  const response = await fetch(apiUrl, { 
+    next: { revalidate: 3600 } // Revalida cada hora
+  });
 
-    return (
-      <div style={counterStyles.counter}>
-        <button onClick={decrement} style={counterStyles.button}>-</button>
-        <span style={counterStyles.count}>{quantity}</span>
-        <button onClick={increment} style={counterStyles.button}>+</button>
-      </div>
-    );
-  };
+  // Si la respuesta de la API es 404, activamos la página not-found.
+  if (response.status === 404) {
+    notFound();
+  }
 
-  const handleAddToCart = () => {
-    addToCart(product, quantity); 
-  };
+  // Si hay otro tipo de error, Next.js mostrará la página error.js más cercana.
+  if (!response.ok) {
+    throw new Error(`Fallo al obtener datos del producto con slug: ${slug}`);
+  }
 
-  return (
-    <div className={styles.container}>
-      <Image
-          src={product.imageUrl} 
-          alt={product.name}
-          width={300}
-          height={300}
-          className={styles.image}
-      />
-      <div className={styles.details}>
-          <h1>{product.name}</h1>
-          <p className={styles.description}>{product.description}</p>
-          <p className={styles.category}>Categoría: {product.category}</p>
-          <p className={styles.stock}>Stock: {product.stock}</p>
-          <p className={styles.price}>${product.price}</p>
+  const product = await response.json();
 
-          <h4>Selecciona la cantidad:</h4>
-          <CounterLocal maxStock={product.stock} /> 
-
-          <button 
-            className={styles.addToCartButton}
-            onClick={handleAddToCart} 
-          >
-            Añadir al Carrito
-          </button>
-      </div>
-    </div>
-  );
+  // Pasamos los datos obtenidos al componente de cliente.
+  return <ProductDetailClient product={product} />;
 }
