@@ -34,3 +34,37 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Configuración del Proyecto
+
+Este proyecto utiliza Firebase para la gestión de productos. Para poder ejecutarlo localmente, necesitarás tus propias credenciales de un proyecto de Firebase.
+
+### Pasos para la Configuración
+
+1.  **Clonar el repositorio:**
+    ```bash
+    git clone [https://github.com/tu-usuario/tu-repositorio.git](https://github.com/tu-usuario/tu-repositorio.git)
+    cd mi-tienda-coder
+    ```
+
+2.  **Crear el archivo de variables de entorno:**
+    Copia el archivo de ejemplo `.env.example` y renómbralo a `.env.local`.
+    ```bash
+    cp .env.example .env.local
+    ```
+
+3.  **Añadir tus credenciales de Firebase:**
+    Abre el archivo `.env.local` y reemplaza los valores de ejemplo con las credenciales de tu propio proyecto de Firebase.
+
+4.  **Instalar dependencias:**
+    ```bash
+    npm install
+    ```
+
+5.  **Ejecutar el proyecto:**
+    ```bash
+    npm run dev
+    ```
+
+Ahora la aplicación debería funcionar correctamente conectada a tu base de datos de Firebase.
