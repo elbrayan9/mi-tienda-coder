@@ -68,3 +68,9 @@ Para poder ejecutar este proyecto localmente, necesitarás tus propias credencia
     ```
 
 Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver la aplicación funcionando.
+
+## 🚀 Despliegue en Vercel
+
+Puedes ver el proyecto funcionando en vivo en el siguiente enlace:
+
+**[https://TU_URL_DE_VERCEL_AQUI.vercel.app/](https://mi-tienda-coder.vercel.app/)**
