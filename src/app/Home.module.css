@@ -1,0 +1,61 @@
+/* src/app/Home.module.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 70vh; /* Ocupa buena parte de la pantalla */
+  padding: 2rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.appName {
+  color: #007bff;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: #555;
+  margin-top: 0.5rem;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.description {
+  font-size: 1.1rem;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.ctaButton {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: white;
+  background-color: #007bff;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.ctaButton:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}

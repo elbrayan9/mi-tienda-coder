@@ -1,6 +1,8 @@
 // src/firebase/config.js
-import { initializeApp, getApps, getApp } from "firebase/app";
+import { getApp, getApps, initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth"; // <-- 1. IMPORTAR getAuth
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -11,9 +13,9 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
 
-// Inicializar Firebase
-// Comprueba si ya existe una app para evitar reinicializaciones (importante en Next.js con HMR)
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
+const storage = getStorage(app);
+const auth = getAuth(app); // <-- 2. INICIALIZAR AUTH
 
-export { db }; // Exportamos la instancia de Firestore
+export { db, storage, auth }; // <-- 3. EXPORTAR AUTH

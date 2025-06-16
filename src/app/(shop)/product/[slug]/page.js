@@ -1,53 +1,69 @@
 // src/app/(shop)/product/[slug]/page.js
 import { notFound } from 'next/navigation';
 import ProductDetailClient from './ProductDetailClient';
+import { db } from '@/firebase/config';
+import { collection, query, where, getDocs, limit } from 'firebase/firestore';
 
-// La función generateStaticParams no cambia.
-export async function generateStaticParams() {
-  const apiUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/products`;
+
+export async function generateMetadata({ params }) {
+  const { slug } = params;
+  const product = await getProductBySlug(slug); // Reutilizamos la función que ya tenías
+
+  if (!product) {
+    return {
+      title: "Producto no encontrado",
+    };
+  }
+
+  return {
+    title: `MiTienda - ${product.name}`,
+    description: product.description,
+  };
+}
+
+async function getProductBySlug(slug) {
+  const productsRef = collection(db, 'products');
+  const q = query(productsRef, where("slug", "==", slug), limit(1));
   try {
-    const response = await fetch(apiUrl, { cache: 'no-store' }); 
-    if (!response.ok) {
-      console.error("Fallo al buscar productos para generateStaticParams");
-      return [];
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) { return null; }
+    const productDoc = querySnapshot.docs[0];
+    return { id: productDoc.id, ...productDoc.data() };
+  } catch (error) {
+    console.error("Error fetching product by slug:", error);
+    return null;
+  }
+}
+
+async function getAllProducts() {
+    try {
+        const productsRef = collection(db, 'products');
+        const querySnapshot = await getDocs(productsRef);
+        return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (error) {
+        console.error("Error fetching all products for static params:", error);
+        return [];
     }
-    const products = await response.json();
-    return products.map((product) => ({
-      slug: product.slug,
-    }));
+}
+
+export async function generateStaticParams() {
+  try {
+    const products = await getAllProducts();
+    return products.map((product) => ({ slug: product.slug, }));
   } catch (error) {
     console.error("Error en generateStaticParams:", error);
     return [];
   }
 }
 
-// -- Componente de Página (Server Component) Refactorizado --
-export default async function ProductDetailPage({ params }) {
-  const { slug } = params;
-
-  // Si por alguna razón el slug no está, redirigir a 404.
+// LA LÍNEA CLAVE QUE SOLUCIONA EL ERROR ES ESTA:
+export default async function ProductDetailPage({ params: { slug } }) {
   if (!slug) {
     notFound();
   }
-
-  // Hacemos el fetch directamente aquí.
-  const apiUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/products/${slug}`;
-  const response = await fetch(apiUrl, { 
-    next: { revalidate: 3600 } // Revalida cada hora
-  });
-
-  // Si la respuesta de la API es 404, activamos la página not-found.
-  if (response.status === 404) {
+  const product = await getProductBySlug(slug);
+  if (!product) {
     notFound();
   }
-
-  // Si hay otro tipo de error, Next.js mostrará la página error.js más cercana.
-  if (!response.ok) {
-    throw new Error(`Fallo al obtener datos del producto con slug: ${slug}`);
-  }
-
-  const product = await response.json();
-
-  // Pasamos los datos obtenidos al componente de cliente.
   return <ProductDetailClient product={product} />;
 }

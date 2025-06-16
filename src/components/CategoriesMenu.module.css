@@ -1,0 +1,39 @@
+/* src/components/CategoriesMenu.module.css */
+.container {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 0 1rem 0;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap; /* Para que se vea bien en móviles */
+    gap: 1rem;
+}
+
+.link {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background-color: #e9ecef;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.link:hover {
+    background-color: #007bff;
+    color: white;
+}
